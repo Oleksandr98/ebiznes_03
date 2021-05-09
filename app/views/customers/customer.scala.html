@@ -1,0 +1,16 @@
+@(customer: CustomerData)
+
+<ul>
+    <li>
+        <b>@customer.name</b>
+        <br/>@customer.surname
+        <br/>@customer.status
+        <br/>@customer.login
+        <br/>@customer.birthDate
+        <br/>
+        <a href="@controllers.routes.CustomerController.blockCustomerForm(customer.id)">block</a>
+        <a href="@controllers.routes.CustomerController.unblockCustomerForm(customer.id)">unblock</a>
+        <a href="@controllers.routes.CustomerController.closeCustomerForm(customer.id)">close</a>
+        <a href="@controllers.routes.CustomerController.modifyCustomerForm(customer.id)">update</a>
+    </li>
+</ul>

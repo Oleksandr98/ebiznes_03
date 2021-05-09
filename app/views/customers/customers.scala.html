@@ -1,0 +1,9 @@
+@(customers: Seq[CustomerData])
+
+@main("Customers:") {
+    @for(customer <- customers) {
+        @views.html.customers.customer(customer)
+    }
+    <br/>
+    <a href="@controllers.routes.CustomerController.enrollCustomerForm()">enroll customer</a>
+}

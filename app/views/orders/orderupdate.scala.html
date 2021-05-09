@@ -1,0 +1,21 @@
+@(order: Form[WSUpdateOrderData], products: Seq[ProductData], id: Long)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.OrderController.modifyOrder(id)) {
+    @helper.CSRF.formField
+    @inputText(order("discount"))
+    @inputText(order("quantity"))
+
+    <select name="prdId" id="product">
+    @for(product <- products) {
+        <option value="@product.id">@product.code</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Update product">
+    </div>
+}

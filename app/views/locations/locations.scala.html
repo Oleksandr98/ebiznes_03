@@ -1,0 +1,9 @@
+@(location: Seq[LocationData])
+
+@main("Locations:") {
+    @for(loc <- location) {
+        @views.html.locations.location(loc)
+    }
+    <br/>
+    <a href="@controllers.routes.LocationController.addLocationForm()">add location</a>
+}

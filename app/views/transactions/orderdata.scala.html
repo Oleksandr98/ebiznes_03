@@ -1,0 +1,15 @@
+@(order: WSResponseOrderData)
+
+<ul>
+    <li>
+        products:
+        <br/>
+        @for(ordProd <- order.orderProducts) {
+            @if(ordProd.product.isDefined) {
+                @views.html.orders.order_product(ordProd.product.get)
+            }
+        }
+            discount: @order.order.discount
+        <br/>
+    </li>
+</ul>

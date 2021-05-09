@@ -1,0 +1,16 @@
+@()
+
+@main("Welcome to Play") {
+  <h1>Ebiznes</h1>
+  <br/>
+  <a href="@controllers.routes.CustomerController.getCustomersForm()">Customers</a>
+  <a href="@controllers.routes.ProductController.getProductsForm()">Products</a>
+  <a href="@controllers.routes.CategoryController.getCategoriesForm()">Categories</a>
+  <a href="@controllers.routes.CouponsController.getCouponsForm()">Coupons</a>
+  <a href="@controllers.routes.CardController.getCardsFrom()">Cards</a>
+  <a href="@controllers.routes.LocationController.getLocationsForm()">Locations</a>
+  <a href="@controllers.routes.OffersController.getOffersForm()">Offers</a>
+  <a href="@controllers.routes.OrderController.getOrdersForm()">Orders</a>
+  <a href="@controllers.routes.ShoppingCartController.getCartsForm()">ShoppingCarts</a>
+  <a href="@controllers.routes.TransactionController.getTransactionsForm()">Transactions</a>
+}

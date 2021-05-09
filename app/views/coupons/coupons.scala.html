@@ -1,0 +1,9 @@
+@(coupons: Seq[CouponData])
+
+@main("Coupons:") {
+    @for(coupon <- coupons) {
+        @views.html.coupons.coupon(coupon)
+    }
+    <br/>
+    <a href="@controllers.routes.CouponsController.addCouponForm()">add coupon</a>
+}

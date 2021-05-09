@@ -1,0 +1,11 @@
+@(transactions: Iterable[WSResponseTransactionData])(implicit flash: Flash)
+
+@flash.get("SUCCESS").getOrElse("")
+
+@main("Orders:") {
+    @for(transaction <- transactions) {
+        @views.html.transactions.transaction(transaction)
+    }
+    <br/>
+    <a href="@controllers.routes.TransactionController.createSaleTransactionForm()">create transaction</a>
+}

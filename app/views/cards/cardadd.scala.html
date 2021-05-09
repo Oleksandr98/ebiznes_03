@@ -1,0 +1,22 @@
+@(card: Form[WSCardData], customer: Seq[CustomerData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.CardController.addCard()) {
+    @helper.CSRF.formField
+    @inputText(card("number"))
+    Customer
+    <br/>
+    <select name="customerId" id="customer">
+        <option value="">No customer</option>
+    @for(cust <- customer) {
+        <option value="@cust.id">@cust.name @cust.surname</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add card">
+    </div>
+}

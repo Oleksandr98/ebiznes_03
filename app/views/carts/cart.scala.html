@@ -1,0 +1,23 @@
+@(cart: WSResponseShoppingCartData)
+
+<ul>
+    <li>
+        @if(cart.customer.isDefined) {
+            Customer: <b>@cart.customer.get.name @cart.customer.get.surname</b>
+        }
+            <br/>Products:
+        @if(cart.products.isDefined) {
+            @for(crtProd <- cart.products.get) {
+                @if(crtProd.product.isDefined) {
+                    @views.html.carts.cart_product(crtProd.product.get, crtProd.itemInfo.get, crtProd.itemInfo.get.orderId)
+                }
+            }
+        }
+            <br/>Total price: @cart.cart.value
+
+            <br/>
+            <a href="@controllers.routes.ShoppingCartController.removeCartForm(cart.cart.id)">remove</a>
+            <a href="@controllers.routes.ShoppingCartController.modifyCartForm(cart.cart.id)">update</a>
+            <a href="@controllers.routes.ShoppingCartController.addToCartForm(cart.cart.id)">add to cart</a>
+    </li>
+</ul>

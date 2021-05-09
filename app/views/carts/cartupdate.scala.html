@@ -1,0 +1,26 @@
+@(cart: Form[WSUpdateShoppingCartData], customers: Seq[CustomerData],
+        orders: Iterable[WSResponseOrderData], id: Long)(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@form(routes.ShoppingCartController.modifyCart(id)) {
+    @helper.CSRF.formField
+    @inputText(cart("value"))
+    <br/>Customer:
+    <select name="customerId" id="customer">
+    @for(customer <- customers) {
+        <option value="@customer.id">@customer.name @customer.surname</option>
+    }
+    </select>
+    <br/>
+    <br/>Order ID:
+    <select name="orderId" id="order">
+    @for(order <- orders) {
+        <option value="@order.order.id">@order.order.id</option>
+    }
+    </select>
+    <br/>
+    <div class="buttons">
+        <input type="submit" value="Update shopping cart">
+    </div>
+}

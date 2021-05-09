@@ -1,0 +1,14 @@
+@(offer: OfferData)
+
+<ul>
+    <li>
+        <b>@offer.name</b>
+        <br/>@offer.code
+        <br/>@offer.description
+        <br/>@offer.startDate
+        <br/>@offer.endDate
+        <br/>
+        <a href="@controllers.routes.OffersController.removeOfferForm(offer.id)">remove</a>
+        <a href="@controllers.routes.OffersController.modifyOfferForm(offer.id)">update</a>
+    </li>
+</ul>

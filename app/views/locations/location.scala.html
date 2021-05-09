@@ -1,0 +1,12 @@
+@(location: LocationData)
+
+<ul>
+    <li>
+        <b>@location.code</b>
+        <br/>@location.locType
+        <br/>@location.description
+        <br/>
+        <a href="@controllers.routes.LocationController.removeLocationForm(location.id)">remove</a>
+        <a href="@controllers.routes.LocationController.modifyLocationForm(location.id)">update</a>
+    </li>
+</ul>

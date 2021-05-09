@@ -1,0 +1,9 @@
+@(products: Seq[ProductData])
+
+@main("Products:") {
+    @for(product <- products) {
+        @views.html.products.product(product)
+    }
+    <br/>
+    <a href="@controllers.routes.ProductController.addProductForm()">add product</a>
+}

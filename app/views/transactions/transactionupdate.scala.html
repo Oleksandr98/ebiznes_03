@@ -1,0 +1,34 @@
+@(transaction: Form[WSUpdateTransactionData], locations: Seq[LocationData],
+        orders: Iterable[WSResponseOrderData], id: Long)(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+
+@form(routes.TransactionController.modifyTransaction(id)) {
+    @helper.CSRF.formField
+    @inputText(transaction("value"))
+    @inputText(transaction("comment"))
+
+    <br/>
+    Location
+    <br/>
+    <select name="locationId" id="location">
+    @for(location <- locations) {
+        <option value="@location.id">@location.code</option>
+    }
+    </select>
+    <br/>
+    Order ID
+    <br/>
+    <select name="orderId" id="order">
+        <option value="">No order</option>
+        @for(order <- orders) {
+            <option value="@order.order.id">@order.order.id</option>
+        }
+    </select>
+    <br/>
+
+    <div class="buttons">
+        <input type="submit" value="Update product">
+    </div>
+}

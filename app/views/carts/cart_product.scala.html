@@ -1,0 +1,12 @@
+@(product: ProductData, shpData: ShoppingCartProductData, id: Long)
+
+<ul>
+    <li>
+        <b>name: @product.name</b>
+        <br/>code: @product.code
+        <br/>price: @product.value
+        <br/>quantity: @shpData.quantity
+        <br/>
+        <a href="@controllers.routes.ShoppingCartController.removeFromCartForm(id, product.id)">remove from cart</a>
+    </li>
+</ul>

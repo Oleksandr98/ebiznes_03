@@ -1,0 +1,9 @@
+@(carts: Iterable[WSResponseShoppingCartData])
+
+@main("Shopping Carts:") {
+    @for(scart <- carts) {
+        @views.html.carts.cart(scart)
+    }
+    <br/>
+    <a href="@controllers.routes.ShoppingCartController.createCartForm()">add shopping cart</a>
+}

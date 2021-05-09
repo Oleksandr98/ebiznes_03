@@ -1,0 +1,22 @@
+@(location: Form[WSLocationData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.LocationController.addLocation()) {
+    @helper.CSRF.formField
+    @inputText(location("code"))
+    @inputText(location("description"))
+
+    type
+    <br/>
+    <select name="type" id="type">
+        <option value="ST">Storage</option>
+        <option value="SH">Shop</option>
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add location">
+    </div>
+}

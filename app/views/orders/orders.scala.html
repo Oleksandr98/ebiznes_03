@@ -1,0 +1,9 @@
+@(orders: Iterable[WSResponseOrderData], customer: Option[CustomerData])
+
+@main("Orders:") {
+    @for(order <- orders) {
+        @views.html.orders.order(order, customer)
+    }
+    <br/>
+    <a href="@controllers.routes.OrderController.createOrderForm()">add order</a>
+}

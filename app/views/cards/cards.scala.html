@@ -1,0 +1,9 @@
+@(cards: Seq[CardData])
+
+@main("Cards:") {
+    @for(card <- cards) {
+        @views.html.cards.card(card)
+    }
+    <br/>
+    <a href="@controllers.routes.CardController.addCardForm()">add card</a>
+}

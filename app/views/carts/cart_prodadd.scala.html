@@ -1,0 +1,18 @@
+@(cart: Form[WSShoppingCartProductData], products: Seq[ProductData], cartId: Long)(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@form(routes.ShoppingCartController.addToCart(cartId)) {
+    @helper.CSRF.formField
+    @inputText(cart("quantity"))
+    <br/>Product:
+    <select name="prdId" id="product">
+    @for(prod <- products) {
+        <option value="@prod.id">@prod.name</option>
+    }
+    </select>
+    <br/>
+    <div class="buttons">
+        <input type="submit" value="Add to cart">
+    </div>
+}

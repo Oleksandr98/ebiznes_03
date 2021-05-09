@@ -1,0 +1,18 @@
+@(customer: Form[WSUpdateCustomerData], id: Long)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.CustomerController.modifyCustomer(id)) {
+    @helper.CSRF.formField
+    @inputText(customer("name"))
+    @inputText(customer("surname"))
+    @inputText(customer("password"))
+    @inputText(customer("login"))
+    @inputText(customer("birthDate"))
+
+    <div class="buttons">
+        <input type="submit" value="Update customer">
+    </div>
+}

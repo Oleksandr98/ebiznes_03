@@ -1,0 +1,20 @@
+@(order: WSResponseOrderData, customer: Option[CustomerData])
+
+<ul>
+    <li>
+        @if(customer.isDefined) {
+            <b>@customer.get.name @customer.get.surname</b>
+            <br/>
+        }
+
+        @for(ordProd <- order.orderProducts) {
+            @if(ordProd.product.isDefined) {
+                @views.html.orders.order_product(ordProd.product.get)
+            }
+        }
+        discount: @order.order.discount
+    <br/>
+    <a href="@controllers.routes.OrderController.cancelOrderForm(order.order.id)">remove</a>
+    <a href="@controllers.routes.OrderController.modifyOrderForm(order.order.id)">update</a>
+    </li>
+</ul>

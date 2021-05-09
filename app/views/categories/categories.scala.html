@@ -1,0 +1,9 @@
+@(categories: Seq[CategoryData])
+
+@main("Categories:") {
+    @for(category <- categories) {
+        @views.html.categories.category(category)
+    }
+    <br/>
+    <a href="@controllers.routes.CategoryController.addCategoryForm()">add category</a>
+}

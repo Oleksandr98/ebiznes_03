@@ -1,0 +1,21 @@
+@(coupon: Form[WSCouponData], customer: Seq[CustomerData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.CouponsController.addCoupon()) {
+    @helper.CSRF.formField
+    @inputText(coupon("number"))
+    Customer
+    <br/>
+    <select name="customerId" id="customer">
+        <option value="">No customer</option>
+        @for(cust <- customer) {
+            <option value="@cust.id">@cust.name @cust.surname</option>
+        }
+    </select>
+    <div class="buttons">
+        <input type="submit" value="Add coupon">
+    </div>
+}

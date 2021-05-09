@@ -1,0 +1,13 @@
+@(coupon: CouponData)
+
+<ul>
+    <li>
+        <b>@coupon.number</b>
+        <br/>@coupon.status
+        <br/>@coupon.customerId
+        <br/>
+        <a href="@controllers.routes.CouponsController.removeCouponForm(coupon.id)">remove</a>
+        <a href="@controllers.routes.CouponsController.invalidateCouponForm(coupon.id)">use</a>
+        <a href="@controllers.routes.CouponsController.modifyCouponForm(coupon.id)">update</a>
+    </li>
+</ul>

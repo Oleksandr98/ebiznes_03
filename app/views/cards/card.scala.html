@@ -1,0 +1,13 @@
+@(card: CardData)
+
+<ul>
+    <li>
+        <b>@card.number</b>
+        <br/>@card.status
+        <br/>@card.customerId
+        <br/>
+        <a href="@controllers.routes.CardController.closeCardForm(card.id)">close</a>
+        <a href="@controllers.routes.CardController.blockCardForm(card.id)">block</a>
+        <a href="@controllers.routes.CardController.modifyCardForm(card.id)">update</a>
+    </li>
+</ul>

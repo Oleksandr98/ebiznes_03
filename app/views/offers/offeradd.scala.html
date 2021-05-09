@@ -1,0 +1,18 @@
+@(offer: Form[WSOfferData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.OffersController.addOffer()) {
+    @helper.CSRF.formField
+    @inputText(offer("code"))
+    @inputText(offer("name"))
+    @inputText(offer("description"))
+    @inputText(offer("startDate"))
+    @inputText(offer("endDate"))
+
+    <div class="buttons">
+        <input type="submit" value="Add offer">
+    </div>
+}

@@ -1,0 +1,14 @@
+@(product: ProductData)
+
+<ul>
+    <li>
+        <b>@product.name</b>
+        <br/>@product.code
+        <br/>@product.description
+        <br/>@product.categoryId
+        <br/>@product.value
+        <br/>
+        <a href="@controllers.routes.ProductController.removeProductForm(product.id)">remove</a>
+        <a href="@controllers.routes.ProductController.updateProductForm(product.id)">update</a>
+    </li>
+</ul>

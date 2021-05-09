@@ -1,0 +1,29 @@
+@(transaction: WSResponseTransactionData)
+
+<ul>
+    <li>
+        @if(transaction.customer.isDefined) {
+            Customer: <b>@transaction.customer.get.name @transaction.customer.get.surname</b>
+        }
+            <br/>transaction type: @transaction.transaction.tType
+            <br/>transaction status: @transaction.transaction.status
+            <br/>comment: @transaction.transaction.comment
+            <br/>total price: @transaction.transaction.value
+            <br/>
+            <b>transaction location:</b>
+        @if(transaction.location.isDefined) {
+            <br/>
+            @views.html.transactions.locationdata(transaction.location.get)
+        }
+            <br/>
+            <b>transaction order:</b>
+        @if(transaction.order.isDefined) {
+            <br/>
+            @views.html.transactions.orderdata(transaction.order.get)
+        }
+
+            <br/>
+            <a href="@controllers.routes.TransactionController.reverseTransactionForm(transaction.transaction.id)">reverse</a>
+            <a href="@controllers.routes.TransactionController.modifyTransactionForm(transaction.transaction.id)">update</a>
+    </li>
+</ul>

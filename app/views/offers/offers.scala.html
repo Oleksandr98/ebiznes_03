@@ -1,0 +1,9 @@
+@(offers: Seq[OfferData])
+
+@main("Offers:") {
+    @for(offer <- offers) {
+        @views.html.offers.offer(offer)
+    }
+    <br/>
+    <a href="@controllers.routes.OffersController.addOfferForm()">add offer</a>
+}

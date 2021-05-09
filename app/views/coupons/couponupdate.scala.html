@@ -1,0 +1,30 @@
+@(coupon: Form[WSUpdateCouponData], customer: Seq[CustomerData], id: Long)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.CouponsController.modifyCoupon(id)) {
+    @helper.CSRF.formField
+    @inputText(coupon("number"))
+    Status
+    <br/>
+    <select name="status" id="status">
+        <option value="N">New</option>
+        <option value="U">Used</option>
+        <option value="C">Cancelled</option>
+    </select>
+    <br/>
+    Customer
+    <br/>
+    <select name="customerId" id="customer">
+        <option value="">No customer</option>
+        @for(cust <- customer) {
+            <option value="@cust.id">@cust.name @cust.surname</option>
+        }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Update card">
+    </div>
+}

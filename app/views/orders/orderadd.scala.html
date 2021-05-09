@@ -1,0 +1,20 @@
+@(order: Form[WSOrderData], customers: Seq[CustomerData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.OrderController.createOrder()) {
+    @helper.CSRF.formField
+    @inputText(order("discount"))
+
+    <select name="customerId" id="customer">
+    @for(cust <- customers) {
+        <option value="@cust.id">@cust.name @cust.surname</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add order">
+    </div>
+}

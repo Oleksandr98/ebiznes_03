@@ -1,0 +1,40 @@
+@(order: Form[WSTransactionData], customers: Seq[CustomerData], locations: Seq[LocationData],
+        orders: Iterable[WSResponseOrderData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.TransactionController.createSaleTransaction()) {
+    @helper.CSRF.formField
+    @inputText(order("value"))
+    @inputText(order("comment"))
+    Customer
+    <br/>
+    <select name="customerId" id="customer">
+    @for(cust <- customers) {
+        <option value="@cust.id">@cust.name @cust.surname</option>
+    }
+    </select>
+    <br/>
+    Location
+    <br/>
+    <select name="locationId" id="location">
+    @for(location <- locations) {
+        <option value="@location.id">@location.code</option>
+    }
+    </select>
+    <br/>
+    Order ID
+    <br/>
+    <select name="orderId" id="order">
+        <option value="">No order</option>
+        @for(order <- orders) {
+            <option value="@order.order.id">@order.order.id</option>
+        }
+    </select>
+    <br/>
+    <div class="buttons">
+        <input type="submit" value="Create transaction">
+    </div>
+}

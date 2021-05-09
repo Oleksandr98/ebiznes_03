@@ -1,0 +1,11 @@
+@(category: CategoryData)
+
+<ul>
+    <li>
+        <b>@category.name</b>
+        <br/>@category.code
+        <br/>
+        <a href="@controllers.routes.CategoryController.removeCategoryForm(category.id)">remove</a>
+        <a href="@controllers.routes.CategoryController.modifyCategoryForm(category.id)">update</a>
+    </li>
+</ul>

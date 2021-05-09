@@ -1,0 +1,173 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# CustomerController
+GET           /customers/form                                 controllers.CustomerController.getCustomersForm()
+GET           /customers/:id/form                             controllers.CustomerController.getCustomerForm(id:Long)
+GET           /customers/form/enroll                          controllers.CustomerController.enrollCustomerForm()
+GET           /customers/enroll                               controllers.CustomerController.enrollCustomer()
+GET           /customers/:id/form/update                      controllers.CustomerController.modifyCustomerForm(id:Long)
+GET           /customers/:id/update                           controllers.CustomerController.modifyCustomer(id:Long)
+GET           /customers/:id/form/close                       controllers.CustomerController.closeCustomerForm(id:Long)
+GET           /customers/:id/form/unblock                     controllers.CustomerController.unblockCustomerForm(id:Long)
+GET           /customers/:id/form/block                       controllers.CustomerController.blockCustomerForm(id:Long)
+#CustomerController##TEMP_ABOVE
+GET           /customers                                      controllers.CustomerController.getCustomers()
+GET           /customers/:id                                  controllers.CustomerController.getCustomer(id:Long)
+POST          /customers/enroll                               controllers.CustomerController.enrollCustomerJSON()
+POST          /customers/:id/block                            controllers.CustomerController.blockCustomer(id:Long)
+POST          /customers/:id/close                            controllers.CustomerController.closeCustomer(id:Long)
+POST          /customers/:id/unblock                          controllers.CustomerController.unblockCustomer(id:Long)
+PUT           /customers/:id                                  controllers.CustomerController.modifyCustomerJSON(id:Long)
+
+#CardController
+GET           /cards/form                                     controllers.CardController.getCardsFrom()
+GET           /cards/:id/form                                 controllers.CardController.getCardForm(id:Long)
+GET           /cards/form/add                                 controllers.CardController.addCardForm()
+GET           /cards/add                                      controllers.CardController.addCard()
+GET           /cards/:id/form/update                          controllers.CardController.modifyCardForm(id:Long)
+GET           /cards/:id/update                               controllers.CardController.modifyCard(id:Long)
+GET           /cards/:id/form/close                           controllers.CardController.closeCardForm(id:Long)
+GET           /cards/:id/form/block                           controllers.CardController.blockCardForm(id:Long)
+#CardController##TEMP_ABOVE
+GET           /cards                                          controllers.CardController.getCards()
+PUT           /cards/:id                                      controllers.CardController.modifyCardJSON(id:Long)
+POST          /cards/add                                      controllers.CardController.addCardJSON()
+POST          /cards/:id/close                                controllers.CardController.closeCard(id:Long)
+POST          /cards/:id/block                                controllers.CardController.blockCard(id:Long)
+GET           /cards/:id                                      controllers.CardController.getCardJSON(id:Long)
+
+#ProductController
+GET           /products/form                                  controllers.ProductController.getProductsForm()
+GET           /products/:id/form                              controllers.ProductController.getProductForm(id:Long)
+GET           /products/form/add                              controllers.ProductController.addProductForm()
+GET           /products/add                                   controllers.ProductController.addProduct()
+GET           /products/:id/form/update                       controllers.ProductController.updateProductForm(id:Long)
+GET           /products/:id/update                            controllers.ProductController.updateProduct(id:Long)
+GET           /products/:id/form/remove                       controllers.ProductController.removeProductForm(id:Long)
+#ProductController##TEMP_ABOVE
+GET           /products                                       controllers.ProductController.getProducts()
+GET           /products/:id                                   controllers.ProductController.getProduct(id:Long)
+POST          /products/add                                   controllers.ProductController.addProductJSON()
+POST          /products/:id                                   controllers.ProductController.updateProductJSON(id:Long)
+DELETE        /products/:id                                   controllers.ProductController.removeProduct(id:Long)
+
+#OrderController
+GET           /orders/form                                    controllers.OrderController.getOrdersForm()
+GET           /orders/:id/form                                controllers.OrderController.getOrderForm(id:Long)
+GET           /orders/form/add                                controllers.OrderController.createOrderForm()
+GET           /orders/add                                     controllers.OrderController.createOrder()
+GET           /orders/:id/form/update                         controllers.OrderController.modifyOrderForm(id:Long)
+GET           /orders/:id/update                              controllers.OrderController.modifyOrder(id:Long)
+GET           /orders/:id/form/cancel                         controllers.OrderController.cancelOrderForm(id:Long)
+#OffersController##TEMP_ABOVE
+GET           /orders                                         controllers.OrderController.getOrders()
+GET           /orders/:id                                     controllers.OrderController.getOrder(id:Long)
+POST          /orders/add                                     controllers.OrderController.createOrderJSON()
+PUT           /orders/:id                                     controllers.OrderController.modifyOrderJSON(id:Long)
+DELETE        /orders/:id                                     controllers.OrderController.cancelOrder(id:Long)
+
+#ShoppingCartController
+GET           /shopping-cart/form                             controllers.ShoppingCartController.getCartsForm()
+GET           /shopping-cart/:id/form                         controllers.ShoppingCartController.getCartForm(id:Long)
+GET           /shopping-cart/form/add                         controllers.ShoppingCartController.createCartForm()
+GET           /shopping-cart/add                              controllers.ShoppingCartController.createCart()
+GET           /shopping-cart/form/add-product/:id             controllers.ShoppingCartController.addToCartForm(id:Long)
+GET           /shopping-cart/form/:id/rem-product/:pid        controllers.ShoppingCartController.removeFromCartForm(id:Long, pid: Long)
+GET           /shopping-cart/add-product/:id                  controllers.ShoppingCartController.addToCart(id:Long)
+GET           /shopping-cart/:id/form/update                  controllers.ShoppingCartController.modifyCartForm(id:Long)
+GET           /shopping-cart/:id/update                       controllers.ShoppingCartController.modifyCart(id:Long)
+GET           /shopping-cart/:id/form/remove                  controllers.ShoppingCartController.removeCartForm(id:Long)
+#ShoppingCartController##TEMP_ABOVE
+GET           /shopping-cart/:id                              controllers.ShoppingCartController.getCart(id:Long)
+GET           /shopping-cart                                  controllers.ShoppingCartController.getCarts()
+POST          /shopping-cart/create                           controllers.ShoppingCartController.createCartJSON()
+POST          /shopping-cart/add/:id                          controllers.ShoppingCartController.addToCartJSON(id:Long)
+POST          /shopping-cart/:id/remove/:pid                  controllers.ShoppingCartController.removeFromCartJSON(id:Long, pid: Long)
+PUT           /shopping-cart/:id                              controllers.ShoppingCartController.modifyCartJSON(id:Long)
+DELETE        /shopping-cart/:id                              controllers.ShoppingCartController.removeCart(id:Long)
+
+#CouponsController
+GET           /coupons/form                                   controllers.CouponsController.getCouponsForm()
+GET           /coupons/:id/form                               controllers.CouponsController.getCouponForm(id:Long)
+GET           /coupons/form/add                               controllers.CouponsController.addCouponForm()
+GET           /coupons/add                                    controllers.CouponsController.addCoupon()
+GET           /coupons/:id/form/update                        controllers.CouponsController.modifyCouponForm(id:Long)
+GET           /coupons/:id/update                             controllers.CouponsController.modifyCoupon(id:Long)
+GET           /coupons/:id/form/remove                        controllers.CouponsController.removeCouponForm(id:Long)
+GET           /coupons/:id/form/use                           controllers.CouponsController.invalidateCouponForm(id:Long)
+#CardController##TEMP_ABOVE
+GET           /coupons                                        controllers.CouponsController.getCoupons()
+POST          /coupons/add                                    controllers.CouponsController.addCouponJSON()
+PUT           /coupons/:id                                    controllers.CouponsController.modifyCouponJSON(id:Long)
+DELETE        /coupons/:id                                    controllers.CouponsController.removeCoupon(id:Long)
+POST          /coupons/:id/use                                controllers.CouponsController.invalidateCoupon(id:Long)
+GET           /coupons/:id                                    controllers.CouponsController.getCoupon(id:Long)
+
+#OffersController
+GET           /offers/form                                    controllers.OffersController.getOffersForm()
+GET           /offers/:id/form                                controllers.OffersController.getOfferForm(id:Long)
+GET           /offers/form/add                                controllers.OffersController.addOfferForm()
+GET           /offers/add                                     controllers.OffersController.addOffer()
+GET           /offers/:id/form/update                         controllers.OffersController.modifyOfferForm(id:Long)
+GET           /offers/:id/update                              controllers.OffersController.modifyOffer(id:Long)
+GET           /offers/:id/form/remove                         controllers.OffersController.removeOfferForm(id:Long)
+#OffersController##TEMP_ABOVE
+GET           /offers                                         controllers.OffersController.getOffers()
+GET           /offers/:id                                     controllers.OffersController.getOffer(id:Long)
+POST          /offers/add                                     controllers.OffersController.addOfferJSON()
+DELETE        /offers/:id                                     controllers.OffersController.removeOffer(id:Long)
+PUT           /offers/:id                                     controllers.OffersController.modifyOfferJSON(id:Long)
+
+#TransactionController
+GET           /transactions/form                              controllers.TransactionController.getTransactionsForm()
+GET           /transactions/:id/form                          controllers.TransactionController.getTransactionForm(id:Long)
+GET           /transactions/form/add                          controllers.TransactionController.createSaleTransactionForm()
+GET           /transactions/add                               controllers.TransactionController.createSaleTransaction()
+GET           /transactions/:id/form/update                   controllers.TransactionController.modifyTransactionForm(id:Long)
+GET           /transactions/:id/update                        controllers.TransactionController.modifyTransaction(id:Long)
+GET           /transactions/:id/form/reverse                  controllers.TransactionController.reverseTransactionForm(id:Long)
+#TransactionController##TEMP_ABOVE
+GET           /transactions                                   controllers.TransactionController.getTransactions()
+GET           /transactions/:id                               controllers.TransactionController.getTransaction(id:Long)
+PUT           /transactions/:id                               controllers.TransactionController.modifyTransactionJSON(id:Long)
+POST          /transactions/sale                              controllers.TransactionController.createSaleTransactionJSON()
+POST          /transactions/:id/reverse                       controllers.TransactionController.reverseTransaction(id:Long)
+
+#LocationController
+GET           /locations/form                                 controllers.LocationController.getLocationsForm()
+GET           /locations/:id/form                             controllers.LocationController.getLocationForm(id:Long)
+GET           /locations/form/add                             controllers.LocationController.addLocationForm()
+GET           /locations/add                                  controllers.LocationController.addLocation()
+GET           /locations/:id/form/update                      controllers.LocationController.modifyLocationForm(id:Long)
+GET           /locations/:id/update                           controllers.LocationController.modifyLocation(id:Long)
+GET           /locations/:id/form/remove                      controllers.LocationController.removeLocationForm(id:Long)
+#LocationController##TEMP_ABOVE
+GET           /locations                                      controllers.LocationController.getLocations()
+GET           /locations/:id                                  controllers.LocationController.getLocation(id:Long)
+POST          /locations/add                                  controllers.LocationController.addLocationJSON()
+PUT           /locations/:id                                  controllers.LocationController.modifyLocationJSON(id:Long)
+DELETE        /locations/:id                                  controllers.LocationController.removeLocation(id:Long)
+
+#CategoryController
+GET           /categories/form                                controllers.CategoryController.getCategoriesForm()
+GET           /categories/:id/form                            controllers.CategoryController.getCategoryForm(id:Long)
+GET           /categories/form/add                            controllers.CategoryController.addCategoryForm()
+GET           /categories/add                                 controllers.CategoryController.addCategory()
+GET           /categories/:id/form/update                     controllers.CategoryController.modifyCategoryForm(id:Long)
+GET           /categories/:id/update                          controllers.CategoryController.modifyCategory(id:Long)
+GET           /categories/:id/form/remove                     controllers.CategoryController.removeCategoryForm(id:Long)
+#CategoryController##TEMP_ABOVE
+GET           /categories                                     controllers.CategoryController.getCategories()
+GET           /categories/:id                                 controllers.CategoryController.getCategoryJSON(id:Long)
+POST          /categories/add                                 controllers.CategoryController.addCategoryJSON()
+PUT           /categories/:id                                 controllers.CategoryController.modifyCategoryJSON(id:Long)
+DELETE        /categories/:id                                 controllers.CategoryController.removeCategoryJSON(id:Long)
+
+#WelcomeController
+GET           /                                               controllers.WelcomeController.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)

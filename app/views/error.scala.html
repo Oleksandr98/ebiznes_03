@@ -1,0 +1,7 @@
+@(errors: Seq[FormError])
+
+@main("Errors:") {
+    @for(err <- errors) {
+        <p>@err</p>
+    }
+}

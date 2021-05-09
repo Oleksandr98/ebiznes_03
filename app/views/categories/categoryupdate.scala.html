@@ -1,0 +1,15 @@
+@(category: Form[WSUpdateCategoryData], id: Long)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.CategoryController.modifyCategory(id)) {
+    @helper.CSRF.formField
+    @inputText(category("name"))
+    @inputText(category("code"))
+
+    <div class="buttons">
+        <input type="submit" value="Update category">
+    </div>
+}
