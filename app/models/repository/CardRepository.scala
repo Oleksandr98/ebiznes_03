@@ -23,6 +23,8 @@ class CardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmRepo
 
     def status = column[String]("CRD_STATUS")
 
+    def points = column[Int]("CRD_POINTS")
+
     def createDate = column[Option[Date]]("CRD_CREATE_DATE")
 
     def modifyDate = column[Option[Date]]("CRD_MODIFY_DATE")
@@ -31,7 +33,7 @@ class CardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmRepo
 
     private def customer = foreignKey("CUSTOMER_FK", customerId, customerData)(_.id)
 
-    def * = (id, number, status, createDate, modifyDate, customerId) <> ((CardData.apply _).tupled, CardData.unapply)
+    def * = (id, number, status, points, createDate, modifyDate, customerId) <> ((CardData.apply _).tupled, CardData.unapply)
   }
 
   import ctmRepo.CustomerTable
@@ -65,6 +67,13 @@ class CardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmRepo
     if (cData.number.isDefined) updateQuery += ", CRD_NUM = '" + cData.number.get + "'"
     if (cData.status.isDefined) updateQuery += ", CRD_STATUS = '" + cData.status.get + "'"
     if (cData.customerId.isDefined) updateQuery += ", CRD_CTM_ID = '" + cData.customerId.get + "'"
+    db.run(sql"UPDATE CARDS SET #$updateQuery WHERE CRD_ID = $id".asUpdate)
+  }
+
+  def updatePointsBalance(id: Long, value: Int): Future[Int] = {
+    val currentDate = Option.apply(new Date(new java.util.Date().getTime))
+    var updateQuery = "CRD_MODIFY_DATE = " + currentDate.get.getTime
+    updateQuery += ", CRD_POINTS = CRD_POINTS + '" + value + "'"
     db.run(sql"UPDATE CARDS SET #$updateQuery WHERE CRD_ID = $id".asUpdate)
   }
 

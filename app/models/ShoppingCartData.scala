@@ -9,6 +9,8 @@ case class ShoppingCartData(id: Long, createDate: Option[Date], modifyDate: Opti
 
 case class WSShoppingCartData(customerId: Long)
 
+case class WSShoppingCartOrderData(discountValue: Option[Double], cardId: Option[Long])
+
 case class WSUpdateShoppingCartData(value: Option[Double], customerId: Option[Long], orderId: Option[Long])
 
 case class WSResponseShoppingCartData(cart: ShoppingCartData, customer: Option[CustomerData], products: Option[Seq[CartProductsDataT]])

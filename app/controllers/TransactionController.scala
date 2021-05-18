@@ -1,11 +1,11 @@
 package controllers
 
 import models.repository.{CustomerRepository, LocationRepository, OrderRepository, TransactionRepository}
-import models.{LocationData, OrderData, TransactionTypes, WSResponseOrderData, WSTransactionData, WSUpdateTransactionData}
-import play.api.data.{Form, FormError}
-import play.api.data.Forms.{longNumber, mapping, nonEmptyText, of, optional}
+import models._
+import play.api.data.Forms._
 import play.api.data.format.Formats.doubleFormat
-import play.api.libs.json.{JsError, JsValue, Json, Writes}
+import play.api.data.{Form, FormError}
+import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._

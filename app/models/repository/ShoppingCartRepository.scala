@@ -13,7 +13,8 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 @Singleton
 class ShoppingCartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ordRepo: OrderRepository,
                                        cusRepo: CustomerRepository, shcPrdRepo: ShoppingCartProductsRepository,
-                                       prdRepo: ProductRepository)(implicit ec: ExecutionContext) {
+                                       prdRepo: ProductRepository, ordProdRepo: OrderProductRepository,
+                                       tranRepo: TransactionRepository, cardRepo: CardRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import cusRepo.CustomerTable
@@ -60,6 +61,28 @@ class ShoppingCartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider,
       ) += (currentDate, Option.empty, Option.empty, 0, Option.empty, shData.customerId)
   }
 
+  def placeOrder(shId: Long, ctmId: Long, d: WSShoppingCartOrderData): Future[Int] = {
+    val id: Long = Await.result(ordRepo.create(new WSOrderData(d.discountValue, Option.apply(ctmId))), Duration.Inf)
+    Await.result(db.run(shoppingCartProductsData.filter(spData => spData.shcId === shId).result),Duration.Inf).map(
+      prdData => ordProdRepo.create(prdData.prdId, id, prdData.quantity)
+    )
+    val res = Await.result(db.run(shoppingCartData.filter(x => x.id === shId).result.head), Duration.Inf)
+    var newValue: Double = 0
+    if (d.discountValue.isDefined) {
+      newValue = res.value*d.discountValue.get
+      newValue = newValue/100
+      newValue = res.value - newValue
+    } else {
+      newValue = res.value
+    }
+    if (d.cardId.isDefined) {
+      cardRepo.updatePointsBalance(d.cardId.get, (newValue/10).toInt)
+    }
+    tranRepo.create(new WSTransactionData(Option.apply(newValue), Option.apply(id), Option.apply("Transaction order: " + id), ctmId, Option.empty), TransactionTypes.Sale.toString)
+
+    removeByIdFinal(shId)
+  }
+
   def getAll(): Future[immutable.Iterable[WSResponseShoppingCartData]] = db.run {
     (for {
       (((cart, crtPrd), prd), customer) <- shoppingCartData.filter(_.removeDate.column.isEmpty).joinLeft(shoppingCartProductsData).on(_.id === _.shcId)
@@ -91,6 +114,10 @@ class ShoppingCartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider,
   def removeById(id: Long): Future[Int] = db.run {
     val currentDate = Option.apply(new Date(new java.util.Date().getTime))
     shoppingCartData.filter(sc => sc.id === id && sc.removeDate.column.isEmpty).map(v => v.removeDate).update(currentDate)
+  }
+
+  def removeByIdFinal(id: Long): Future[Int] = db.run {
+    shoppingCartData.filter(sc => sc.id === id).delete
   }
 
   def addProduct(shcId: Long, prdId: Long, quantity: Int): Future[Future[Int]] = {

@@ -2,9 +2,10 @@ package controllers
 
 import models.repository.{CouponsRepository, CustomerRepository}
 import models.{CouponStatuses, CustomerData, WSCouponData, WSUpdateCouponData}
-import play.api.data.Forms.{longNumber, mapping, nonEmptyText, optional}
+import play.api.data.Forms._
+import play.api.data.format.Formats.doubleFormat
 import play.api.data.{Form, FormError}
-import play.api.libs.json.{JsObject, JsValue, Json, Writes}
+import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._
@@ -26,7 +27,8 @@ class CouponsController @Inject()(val cpnRepo: CouponsRepository, custRepo: Cust
   val couponAddForm: Form[WSCouponData] = Form {
     mapping(
       "number" -> nonEmptyText,
-      "customerId" -> optional(longNumber)
+      "customerId" -> optional(longNumber),
+      "discountVal" -> of[Double]
     )(WSCouponData.apply)(WSCouponData.unapply)
   }
 
@@ -43,10 +45,7 @@ class CouponsController @Inject()(val cpnRepo: CouponsRepository, custRepo: Cust
     for {
       list <- cpnRepo.getAll()
     } yield {
-      val json = JsObject(Seq(
-        "coupons" -> Json.toJson(list)
-      ))
-      Ok(json)
+      Ok(Json.toJson(list))
     }
   }
 
@@ -62,7 +61,7 @@ class CouponsController @Inject()(val cpnRepo: CouponsRepository, custRepo: Cust
         "details" -> Json.toJson(errorForm.errors)
       )))
     }, { couponData =>
-      cpnRepo.create(couponData.number, couponData.customerId).map(id =>
+      cpnRepo.create(couponData.number, couponData.customerId, couponData.discountVal).map(id =>
         Ok(Json.obj("status" -> "OK", "message" -> ("created: " + id))))
     })
   }
@@ -74,7 +73,7 @@ class CouponsController @Inject()(val cpnRepo: CouponsRepository, custRepo: Cust
         "details" -> Json.toJson(errorForm.errors)
       )))
     }, { cData =>
-      cpnRepo.create(cData.number, cData.customerId).map(id =>
+      cpnRepo.create(cData.number, cData.customerId, cData.discountVal).map(id =>
         Redirect("/coupons/" + id + "/form"))
     })
   }

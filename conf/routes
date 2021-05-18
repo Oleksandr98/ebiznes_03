@@ -85,6 +85,7 @@ GET           /shopping-cart/:id                              controllers.Shoppi
 GET           /shopping-cart                                  controllers.ShoppingCartController.getCarts()
 POST          /shopping-cart/create                           controllers.ShoppingCartController.createCartJSON()
 POST          /shopping-cart/add/:id                          controllers.ShoppingCartController.addToCartJSON(id:Long)
+POST          /shopping-cart/:id/:cId                         controllers.ShoppingCartController.placeOrder(id: Long, cId: Long)
 POST          /shopping-cart/:id/remove/:pid                  controllers.ShoppingCartController.removeFromCartJSON(id:Long, pid: Long)
 PUT           /shopping-cart/:id                              controllers.ShoppingCartController.modifyCartJSON(id:Long)
 DELETE        /shopping-cart/:id                              controllers.ShoppingCartController.removeCart(id:Long)

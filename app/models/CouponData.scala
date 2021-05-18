@@ -4,9 +4,9 @@ import play.api.libs.json.Json
 
 import java.sql.Date
 
-case class CouponData(id: Long, number: String, status: String, createDate: Option[Date], modifyDate: Option[Date], removeDate: Option[Date], customerId: Option[Long])
+case class CouponData(id: Long, number: String, status: String, discountVal: Double, createDate: Option[Date], modifyDate: Option[Date], removeDate: Option[Date], customerId: Option[Long])
 
-case class WSCouponData(number: String, customerId: Option[Long])
+case class WSCouponData(number: String, customerId: Option[Long], discountVal: Double)
 
 case class WSUpdateCouponData(number: Option[String], status: Option[String], customerId: Option[Long])
 

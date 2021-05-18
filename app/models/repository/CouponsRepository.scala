@@ -23,6 +23,8 @@ class CouponsRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmR
 
     def status = column[String]("CPN_STATUS")
 
+    def discountVal = column[Double]("CPN_DISCOUNT_VALUE")
+
     def createDate = column[Option[Date]]("CPN_CREATE_DATE")
 
     def modifyDate = column[Option[Date]]("CPN_MODIFY_DATE")
@@ -33,7 +35,7 @@ class CouponsRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmR
 
     private def customer = foreignKey("CUSTOMER_FK", customerId, customerData)(_.id)
 
-    def * = (id, number, status, createDate, modifyDate, removeDate, customerId) <> ((CouponData.apply _).tupled, CouponData.unapply)
+    def * = (id, number, status, discountVal, createDate, modifyDate, removeDate, customerId) <> ((CouponData.apply _).tupled, CouponData.unapply)
   }
 
   import ctmRepo.CustomerTable
@@ -41,11 +43,11 @@ class CouponsRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, ctmR
   private val couponData = TableQuery[CouponsTable]
   private val customerData = TableQuery[CustomerTable]
 
-  def create(number: String, cId: Option[Long]): Future[Long] = db.run {
+  def create(number: String, cId: Option[Long], discount: Double): Future[Long] = db.run {
     val currentDate = Option.apply(new Date(new java.util.Date().getTime))
-    (couponData.map(couponData => (couponData.number, couponData.status, couponData.createDate, couponData.modifyDate, couponData.removeDate, couponData.customerId))
+    (couponData.map(couponData => (couponData.number, couponData.status, couponData.discountVal, couponData.createDate, couponData.modifyDate, couponData.removeDate, couponData.customerId))
       returning couponData.map(_.id)
-      ) += (number, CouponStatuses.New.toString, currentDate, Option.empty, Option.empty, cId)
+      ) += (number, CouponStatuses.New.toString, discount, currentDate, Option.empty, Option.empty, cId)
   }
 
   def getAll(): Future[Seq[CouponData]] = db.run {

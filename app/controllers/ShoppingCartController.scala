@@ -1,11 +1,11 @@
 package controllers
 
 import models.repository.{CustomerRepository, OrderRepository, ProductRepository, ShoppingCartRepository}
-import models.{CustomerData, ProductData, WSResponseOrderData, WSShoppingCartData, WSShoppingCartProductData, WSShoppingCartProductRemData, WSUpdateShoppingCartData}
-import play.api.data.{Form, FormError}
-import play.api.data.Forms.{longNumber, mapping, number, of, optional}
+import models._
+import play.api.data.Forms._
 import play.api.data.format.Formats.doubleFormat
-import play.api.libs.json.{JsError, JsValue, Json, Writes}
+import play.api.data.{Form, FormError}
+import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._
@@ -31,6 +31,13 @@ class ShoppingCartController @Inject()(val shcRepo: ShoppingCartRepository, ctmR
     )(WSShoppingCartData.apply)(WSShoppingCartData.unapply)
   }
 
+  val shoppingCartOrderForm: Form[WSShoppingCartOrderData] = Form {
+    mapping(
+      "discountValue" -> optional(of[Double]),
+      "cardId" -> optional(longNumber)
+    )(WSShoppingCartOrderData.apply)(WSShoppingCartOrderData.unapply)
+  }
+
   val shoppingCartUpdateForm: Form[WSUpdateShoppingCartData] = Form {
     mapping(
       "value" -> optional(of[Double]),
@@ -54,8 +61,18 @@ class ShoppingCartController @Inject()(val shcRepo: ShoppingCartRepository, ctmR
       )))
     }, { shcData =>
       shcRepo.create(shcData).map(id =>
-        Ok(Json.obj("status" -> "OK", "message" -> ("created " + id))))
+        Ok(Json.obj("status" -> "OK", "message" -> id)))
     })
+  }
+
+  def placeOrder(id: Long, cId: Long) = Action.async { implicit request =>
+    shoppingCartOrderForm.bindFromRequest.fold(errorForm => {
+      Future.successful(BadRequest(Json.obj(
+        "status" -> "Error",
+        "details" -> Json.toJson(errorForm.errors)
+      )))
+    }, {d => shcRepo.placeOrder(id, cId, d).map(id =>
+      Ok(Json.obj("status" -> "OK", "message" -> id)))})
   }
 
   def createCart() = Action.async { implicit request =>
@@ -141,20 +158,20 @@ class ShoppingCartController @Inject()(val shcRepo: ShoppingCartRepository, ctmR
   }
 
   def removeFromCartJSON(id: Long, prodId: Long) = Action.async { implicit request =>
-      shcRepo.removeProduct(id, prodId).flatMap(x => x.map {
-        case 1 => Ok(Json.obj("status" -> "OK", "message" -> "updated"))
-        case 0 => BadRequest(Json.obj(
-          "status" -> "Error",
-          "message" -> s"Not found item by id: $id",
-        ))
-      })
+    shcRepo.removeProduct(id, prodId).flatMap(x => x.map {
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> "updated"))
+      case 0 => BadRequest(Json.obj(
+        "status" -> "Error",
+        "message" -> s"Not found item by id: $id",
+      ))
+    })
   }
 
   def removeFromCartForm(id: Long, prodId: Long) = Action.async { implicit request =>
     shcRepo.removeProduct(id, prodId).flatMap(x => x.map {
-        case 1 => Redirect("/shopping-cart/" + id + "/form")
-        case 0 => BadRequest(views.html.businesserror(s"Not found item by id: $id"))
-      })
+      case 1 => Redirect("/shopping-cart/" + id + "/form")
+      case 0 => BadRequest(views.html.businesserror(s"Not found item by id: $id"))
+    })
   }
 
   def modifyCartJSON(id: Long) = Action.async { implicit request =>

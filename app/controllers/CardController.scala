@@ -42,10 +42,7 @@ class CardController @Inject()(val crdRepo: CardRepository, custRepo: CustomerRe
     for {
       list <- crdRepo.getAll()
     } yield {
-      val json = JsObject(Seq(
-        "cards" -> Json.toJson(list)
-      ))
-      Ok(json)
+      Ok(Json.toJson(list))
     }
   }
 
@@ -62,7 +59,7 @@ class CardController @Inject()(val crdRepo: CardRepository, custRepo: CustomerRe
       )))
     }, { cData =>
       crdRepo.create(cData.number, cData.customerId).map(id =>
-        Ok(Json.obj("status" -> "OK", "message" -> ("created " + id))))
+        Ok(Json.obj("status" -> "OK", "message" -> id)))
     })
   }
 
@@ -85,7 +82,7 @@ class CardController @Inject()(val crdRepo: CardRepository, custRepo: CustomerRe
 
   def closeCard(id: Long): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     crdRepo.closeById(id).map {
-      case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("closed: " + id)))
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
       case 0 => BadRequest(Json.obj(
         "status" -> "Error",
         "message" -> s"Not found item by id: $id",
@@ -102,7 +99,7 @@ class CardController @Inject()(val crdRepo: CardRepository, custRepo: CustomerRe
 
   def blockCard(id: Long): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     crdRepo.updateById(id, new WSUpdateCardData(Option.empty, Option.apply(CardStatuses.Blocked.toString), Option.empty)).map {
-      case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("blocked: " + id)))
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
       case 0 => BadRequest(Json.obj(
         "status" -> "Error",
         "message" -> s"Not found item by id: $id",
@@ -156,7 +153,7 @@ class CardController @Inject()(val crdRepo: CardRepository, custRepo: CustomerRe
       )))
     }, { cData =>
       crdRepo.updateById(id, cData).map {
-        case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("updated: " + id)))
+        case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
         case 0 => BadRequest(s"Not found item by id: $id")
       }
     })

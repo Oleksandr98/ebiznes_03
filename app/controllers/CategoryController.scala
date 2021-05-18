@@ -1,8 +1,8 @@
 package controllers
 
 import models.repository.CategoryRepository
-import models.{CategoryData, WSCategoryData, WSUpdateCategoryData}
-import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
+import models.{WSCategoryData, WSUpdateCategoryData}
+import play.api.data.Forms.{mapping, nonEmptyText, optional}
 import play.api.data.{Form, FormError}
 import play.api.libs.json._
 import play.api.mvc._
@@ -10,7 +10,6 @@ import play.api.mvc._
 import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
 @Singleton
 class CategoryController @Inject()(val catRepo: CategoryRepository, cc: MessagesControllerComponents) extends MessagesAbstractController(cc) {

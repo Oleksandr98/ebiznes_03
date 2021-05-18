@@ -103,7 +103,6 @@ class TransactionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
     transactionData.filter(o => o.id === id).map(v => (v.modifyDate, v.status)).update(currentDate, TransactionStatuses.Reversed.toString)
   }
 
-
   def updateById(id: Long, tData: WSUpdateTransactionData): Future[Int] = {
     val currentDate = Option.apply(new Date(new java.util.Date().getTime))
     var updateQuery = "TRA_MODIFY_DATE = " + currentDate.get.getTime

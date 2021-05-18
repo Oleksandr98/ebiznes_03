@@ -2,9 +2,9 @@ package controllers
 
 import models.repository.LocationRepository
 import models.{WSLocationData, WSUpdateLocationData}
+import play.api.data.Forms.{mapping, nonEmptyText, optional}
 import play.api.data.{Form, FormError}
-import play.api.data.Forms.{mapping, nonEmptyText, optional, sqlDate}
-import play.api.libs.json.{JsError, JsObject, JsValue, Json, Writes}
+import play.api.libs.json.{JsObject, JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._
@@ -65,7 +65,7 @@ class LocationController @Inject()(val lcnRepo: LocationRepository,
       { locData =>
           try {
             lcnRepo.create(locData).map(id =>
-              Ok(Json.obj("status" -> "OK", "message" -> ("created " + id))))
+              Ok(Json.obj("status" -> "OK", "message" -> id)))
           }
           catch {
             case ex: NoSuchElementException => Future.successful(BadRequest(Json.obj(
@@ -126,7 +126,7 @@ class LocationController @Inject()(val lcnRepo: LocationRepository,
     }, { loc =>
       try {
         lcnRepo.updateById(id, loc).map {
-          case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("updated: " + id)))
+          case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
           case 0 => BadRequest(Json.obj(
             "status" -> "Error",
             "message" -> s"Not found item by id: $id",

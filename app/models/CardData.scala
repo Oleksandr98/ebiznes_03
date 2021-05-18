@@ -4,7 +4,7 @@ import play.api.libs.json.Json
 
 import java.sql.Date
 
-case class CardData(id: Long, number: String, status: String, createDate: Option[Date], modifyDate: Option[Date], customerId: Option[Long])
+case class CardData(id: Long, number: String, status: String, points: Int, createDate: Option[Date], modifyDate: Option[Date], customerId: Option[Long])
 
 case class WSCardData(number: String, customerId: Option[Long])
 

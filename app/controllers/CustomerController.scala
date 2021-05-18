@@ -46,10 +46,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
     for {
       list <- ctmRepo.getAll()
     } yield {
-      val json = JsObject(Seq(
-        "customers" -> Json.toJson(list)
-      ))
-      Ok(json)
+      Ok(Json.toJson(list))
     }
   }
 
@@ -84,7 +81,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
       )))
     }, { cData =>
       ctmRepo.create(cData).map(id =>
-        Ok(Json.obj("status" -> "OK", "message" -> ("created " + id))))
+        Ok(Json.obj("status" -> "OK", "message" -> id)))
     })
   }
 
@@ -110,7 +107,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
       )))
     }, { c =>
       ctmRepo.updateById(id, c).map {
-        case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("updated: " + id)))
+        case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
         case 0 => BadRequest(Json.obj(
           "status" -> "Error",
           "message" -> s"Not found item by id: $id",
@@ -146,7 +143,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
 
   def blockCustomer(id: Long) = Action.async { implicit request: Request[AnyContent] =>
     ctmRepo.blockOrUnblockById(id, true).map {
-      case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("status updated: " + id)))
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
       case 0 => BadRequest(Json.obj(
         "status" -> "Error",
         "message" -> s"Not found item by id: $id",
@@ -164,7 +161,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
   // customer cannot be removed, but can be closed
   def closeCustomer(id: Long) = Action.async { implicit request: Request[AnyContent] =>
     ctmRepo.closeById(id).map {
-      case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("closed: " + id)))
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
       case 0 => BadRequest(Json.obj(
         "status" -> "Error",
         "message" -> s"Not found item by id: $id",
@@ -181,7 +178,7 @@ class CustomerController @Inject()(val ctmRepo: CustomerRepository,
 
   def unblockCustomer(id: Long) = Action.async { implicit request: Request[AnyContent] =>
     ctmRepo.blockOrUnblockById(id, false).map {
-      case 1 => Ok(Json.obj("status" -> "OK", "message" -> ("status updated: " + id)))
+      case 1 => Ok(Json.obj("status" -> "OK", "message" -> id))
       case 0 => BadRequest(Json.obj(
         "status" -> "Error",
         "message" -> s"Not found item by id: $id",

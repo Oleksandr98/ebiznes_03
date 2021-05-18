@@ -2,10 +2,10 @@ package controllers
 
 import models.repository.{CategoryRepository, ProductRepository}
 import models.{CategoryData, WSProductData, WSUpdateProductData}
-import play.api.data.{Form, FormError}
 import play.api.data.Forms._
 import play.api.data.format.Formats.doubleFormat
-import play.api.libs.json.{JsObject, JsValue, Json, Writes}
+import play.api.data.{Form, FormError}
+import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._
@@ -49,10 +49,7 @@ class ProductController @Inject()(val prdRepo: ProductRepository, catRepo: Categ
     for {
       list <- prdRepo.getAll()
     } yield {
-      val json = JsObject(Seq(
-        "products" -> Json.toJson(list)
-      ))
-      Ok(json)
+      Ok(Json.toJson(list))
     }
   }
 
@@ -77,7 +74,7 @@ class ProductController @Inject()(val prdRepo: ProductRepository, catRepo: Categ
         )))
       }, pData =>
         prdRepo.create(pData.name, pData.code, pData.description, pData.categoryId, pData.value).map(id =>
-          Ok(Json.obj("status" -> "OK", "message" -> ("created " + id))))
+          Ok(Json.obj("status" -> "OK", "message" -> id)))
     )
   }
 

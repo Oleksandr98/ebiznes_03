@@ -3,20 +3,20 @@
 <ul>
     <li>
         @if(transaction.customer.isDefined) {
-            Customer: <b>@transaction.customer.get.name @transaction.customer.get.surname</b>
+            Customer: <strong>@transaction.customer.get.name @transaction.customer.get.surname</strong>
         }
             <br/>transaction type: @transaction.transaction.tType
             <br/>transaction status: @transaction.transaction.status
             <br/>comment: @transaction.transaction.comment
             <br/>total price: @transaction.transaction.value
             <br/>
-            <b>transaction location:</b>
+            <strong>transaction location:</strong>
         @if(transaction.location.isDefined) {
             <br/>
             @views.html.transactions.locationdata(transaction.location.get)
         }
             <br/>
-            <b>transaction order:</b>
+            <strong>transaction order:</strong>
         @if(transaction.order.isDefined) {
             <br/>
             @views.html.transactions.orderdata(transaction.order.get)

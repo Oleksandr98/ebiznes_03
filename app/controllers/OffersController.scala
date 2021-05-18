@@ -4,7 +4,7 @@ import models.repository.OffersRepository
 import models.{WSOfferData, WSUpdateOfferData}
 import play.api.data.Forms.{mapping, nonEmptyText, optional, sqlDate}
 import play.api.data.{Form, FormError}
-import play.api.libs.json.{JsObject, JsValue, Json, Writes}
+import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
 
 import javax.inject._
@@ -45,10 +45,7 @@ class OffersController @Inject()(val ofrRepo: OffersRepository, cc: MessagesCont
     for {
       list <- ofrRepo.getAll()
     } yield {
-      val json = JsObject(Seq(
-        "offers" -> Json.toJson(list)
-      ))
-      Ok(json)
+      Ok(Json.toJson(list))
     }
   }
 
@@ -83,7 +80,7 @@ class OffersController @Inject()(val ofrRepo: OffersRepository, cc: MessagesCont
       )))
     }, { offerData =>
       ofrRepo.create(offerData).map(id =>
-        Ok(Json.obj("status" -> "OK", "message" -> ("created: " + id))))
+        Ok(Json.obj("status" -> "OK", "message" -> id)))
     })
   }
 
